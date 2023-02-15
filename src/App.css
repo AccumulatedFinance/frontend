@@ -1,38 +1,152 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,200;0,400;0,600;0,800;1,200;1,400;1,600;1,800&display=swap');
+
+html, body {
+  background: rgb(142,45,226);
+  background: linear-gradient(0deg, rgba(142,45,226,1) 0%, rgba(74,0,224,1) 100%);
+  background-attachment: fixed;
+}
+
+.react-icons {
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+.react-icons.react-icons-blue {
+  color: #1677ff;
+}
+
+.react-icons.react-icons-green {
+  color: #52c41a;
+}
+
+.react-icons.react-icons-yellow {
+  color: #faad14;
+}
+
+.loader {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto !important;
+  height: 42px;
+}
+
+.logo {
+  height: 38px;
+  margin-top: -2px;
+}
+
+.ant-layout, .ant-layout .ant-layout-footer {
+  background: none !important;
+}
+
+.ant-layout-header {
+  background: #FFF !important;
+  padding-inline: 20px !important;
+  overflow: hidden !important;
+}
+
+.ant-layout-footer {
+  text-align: center;
+  padding: 0 20px 40px !important;
+}
+
+.ant-layout-footer .ant-typography {
+  color: #FFF !important;
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+}
+
+.ant-layout-footer .made-by {
+  color: rgba(255,255,255,0.75) !important;
+  font-size: 16px !important;
+}
+
+.ant-layout-footer a {
+  color: #FFF;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.5);
+}
+
+.ant-layout-footer a:hover {
+  color: #FFF;
+  border-color: rgba(255,255,255,1);
+}
+
+.connect-button {
+  float: right;
+  font-weight: 600;
+  font-size: 16px;  
+  margin-top: 11px;
+}
+
+.connect-button .ant-badge-status {
+  margin-right: 8px;
+}
+
+.connect-button .ant-badge-status-text {
+  font-size: 16px !important;
+}
+
+.headline, .sections {
+  margin: 60px auto;
+}
+
+.headline {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.headline .ant-typography {
+  color: #FFF !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.headline h2.ant-typography {
+  margin-top: 0px !important;
+  font-weight: 200;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.headline .react-icons {
+  color: rgba(255,255,255,0.75) !important;
+  font-size: 32px;
+  margin-bottom: 8px;
 }
 
-.App-link {
-  color: #61dafb;
+.headline .ant-statistic-title {
+  color: rgba(255,255,255,0.75) !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.headline .ant-statistic-content {
+  color: rgba(255,255,255,1) !important;
+  font-weight: 600;
+}
+
+.sections {
+  margin-bottom: 0;
+}
+
+.sections .ant-collapse-item {
+  margin-bottom: 16px;
+}
+
+.sections .ant-collapse-item .ant-collapse-header {
+  background: #FFF;
+  font-weight: 800 !important;
+  border-radius: 7px !important;
+}
+
+.sections .ant-collapse-item .ant-collapse-header .react-icons {
+  margin-top: -3px;
+  margin-left: 8px;
+  font-size: 18px;
+}
+
+.sections .ant-collapse-item-active .ant-collapse-header {
+  border-radius: 7px 7px 0 0 !important;
+}
+
+.sections .ant-collapse-item .ant-collapse-content {
+  border-radius: 0 0 7px 7px !important;
 }
