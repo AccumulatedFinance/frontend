@@ -124,7 +124,7 @@ const Index = () => {
                 <Collapse size="large">
                     <Panel header={<div>ACFI Locker<IconContext.Provider value={{ className: 'react-icons react-icons-yellow' }}><RiLock2Fill /></IconContext.Provider></div>} key="1">
                         <ul>
-                            <li>ACFI is Accumulate Finance token</li>
+                            <li>ACFI is Accumulated Finance governance token</li>
                             <li>Lock ACFI to get veACFI <Text type="secondary">(voting escrow ACFI)</Text></li>
                             <li>veACFI participates in platform governance</li>
                             <li>veACFI earns platform fees</li>
