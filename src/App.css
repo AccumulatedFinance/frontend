@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,200;0,400;0,600;0,800;1,200;1,400;1,600;1,800&display=swap');
 
 html, body {
-  background: rgb(142,45,226);
-  background: linear-gradient(0deg, rgba(142,45,226,1) 0%, rgba(74,0,224,1) 100%);
+  background: #29323c;
+  background: url("waves.svg"), linear-gradient(0deg, #485563 0%, #29323c 100%);
+  background-size: 150px;
   background-attachment: fixed;
 }
 
@@ -116,11 +117,13 @@ html, body {
 
 .headline .ant-statistic-title {
   color: rgba(255,255,255,0.75) !important;
+  font-size: 16px;
 }
 
 .headline .ant-statistic-content {
   color: rgba(255,255,255,1) !important;
   font-weight: 600;
+  font-size: 28px;
 }
 
 .sections {
@@ -149,4 +152,23 @@ html, body {
 
 .sections .ant-collapse-item .ant-collapse-content {
   border-radius: 0 0 7px 7px !important;
+}
+
+.sections th.ant-descriptions-item {
+  padding-bottom: 0 !important;
+}
+
+.sections td.ant-descriptions-item {
+  padding-bottom: 5px !important;
+}
+
+.sections .ant-form-item {
+  margin-bottom: 10px;
+}
+
+.ant-modal-body .logo-mark {
+  height: 26px;
+  vertical-align: middle;
+  margin-top: -5px;
+  margin-right: 8px;
 }
