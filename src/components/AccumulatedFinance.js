@@ -19,7 +19,7 @@ const { Text, Paragraph, Title } = Typography;
 
 const AccumulatedFinance = props => {
 
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     
     const showModal = () => {
         setIsModalOpen(true);
