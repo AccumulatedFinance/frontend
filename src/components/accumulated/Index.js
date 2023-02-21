@@ -158,17 +158,17 @@ const Index = () => {
                                             </Paragraph>
                                             <Form
                                                 layout="horizontal"
-                                                style={{ maxWidth: 400 }}
+                                                style={{ maxWidth: 300 }}
                                                 size={"large"}
                                                 >
                                                 <Form.Item>
                                                     <Input.Group compact>
-                                                        <Input style={{ width: 'calc(100% - 100px)' }} placeholder='WACME amount to stake' />
-                                                        <Button type="primary">Stake</Button>
+                                                        <Input style={{ width: 'calc(100% - 100px)' }} placeholder='Amount' />
+                                                        <Button type="primary" disabled>Stake</Button>
                                                     </Input.Group>
                                                 </Form.Item>
                                                 <Form.Item>
-                                                <Text mark>Liquid staking contract is being tested and deployed.<br />Please come back soon.</Text>
+                                                <Text mark>Liquid staking contract is being tested and deployed. Please come back soon.</Text>
                                                 </Form.Item>
                                             </Form>
                                             <Divider style={{margin: "10px 0"}} />

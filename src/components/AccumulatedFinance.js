@@ -45,9 +45,9 @@ const AccumulatedFinance = props => {
                     <Button disabled size="large" className="connect-button" shape="round">
                         <Badge color={"blue"} text="" />Connect Wallet
                     </Button>
-                        <Button type="primary" size="large" className="connect-button" shape="round" style={{ marginRight: 10 }} onClick={showModal}>
-                            ACFI Airdrop
-                        </Button>
+                    <Button type="primary" ghost size="large" className="connect-button" shape="round" style={{ marginRight: 10 }} onClick={showModal}>
+                        ACFI Airdrop
+                    </Button>
                 </Header>
 
                 <Content style={{ padding: '25px 20px 30px 20px', margin: 0 }}>
