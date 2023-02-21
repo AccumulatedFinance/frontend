@@ -94,11 +94,11 @@ const Index = () => {
                 <Row gutter={[16,32]} justify="center" style={{marginTop: '60px', marginBottom: '15px'}}>
                     <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                         <IconContext.Provider value={{ className: 'react-icons' }}><RiSafe2Line /></IconContext.Provider>
-                        <Statistic title="TVL" value={stakingTVL && acmePrice ? acmePrice*stakingTVL/(10**11) : "..."} prefix={"$"} suffix={"k"} formatter={stakingTVL && acmePrice ? formatterDecimals : null} />
+                        <Statistic title="TVL" value={stakingTVL && acmePrice ? acmePrice*stakingTVL/(10**11) : "..."} prefix={stakingTVL && acmePrice ? "$" : null} suffix={stakingTVL && acmePrice ? "k" : null} formatter={stakingTVL && acmePrice ? formatterDecimals : null} />
                     </Col>
                     <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                         <IconContext.Provider value={{ className: 'react-icons' }}><RiDropLine /></IconContext.Provider>
-                        <Statistic title="Total ACME staked" value={stakingTVL ? (stakingTVL/(10**8)) : "..."} suffix={"ACME"} formatter={stakingTVL ? formatter : null} />
+                        <Statistic title="Total ACME staked" value={stakingTVL ? (stakingTVL/(10**8)) : "..."} suffix={stakingTVL ? "ACME" : null} formatter={stakingTVL ? formatter : null} />
                     </Col>
                     <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                         <IconContext.Provider value={{ className: 'react-icons' }}><RiFundsLine /></IconContext.Provider>
