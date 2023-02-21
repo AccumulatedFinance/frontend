@@ -9,7 +9,7 @@ import {
 } from 'react-icons/ri';
 
 import Logo from './common/Logo';
-import LogoMark from './common/LogoMark';
+import LogoToken from './common/LogoToken';
 import ScrollToTop from './common/ScrollToTop';
 
 import Index from './accumulated/Index';
@@ -67,7 +67,7 @@ const AccumulatedFinance = props => {
             </Layout>
             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <div style={{ textAlign: 'center' }}>
-                    <Title level={2} style={{marginBottom: 5}}><LogoMark />ACFI</Title>
+                    <Title level={2} style={{marginBottom: 5}}><LogoToken />ACFI</Title>
                     <Title level={5} style={{marginTop: 0, marginBottom: 20, fontWeight: 400}}>Accumulated Finance Governance Token</Title>
                     <p><Text type="secondary">50% of the platform fees will be distributed to ACFI holders who have locked their tokens (Voting Escrow model)</Text></p>
                 </div>
