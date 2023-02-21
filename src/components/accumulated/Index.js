@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import axios from 'axios';
+
 import {
   Row,
   Col,
@@ -13,14 +15,15 @@ import {
   Descriptions,
   Form,
   Input,
-  Divider
+  Divider,
+  message
 } from 'antd';
 
 import CountUp from 'react-countup';
 
 import { IconContext } from "react-icons";
 import {
-    RiPercentLine, RiFundsLine, RiDropLine, RiGiftLine, RiDropFill, RiMoneyDollarCircleFill, RiLock2Fill, RiErrorWarningLine
+    RiFundsLine, RiDropLine, RiGiftLine, RiDropFill, RiMoneyDollarCircleFill, RiLock2Fill, RiErrorWarningLine, RiSafe2Line
 } from 'react-icons/ri';
 
 import RPC from '../common/RPC';
@@ -35,10 +38,11 @@ const Index = () => {
     const stakingAccount = "accumulated.acme/staking";
     const wacmeAddress = "0xDF4Ef6EE483953fE3B84ABd08C6A060445c01170";
     const nativeACMEStakingMin = 50000;
-    const formatter = (value) => <CountUp end={value} duration={0.75} decimals={2} separator="," />;
-    const formatterRounded = (value) => <CountUp end={value} duration={0.75} decimals={0} separator="," />;
+    const formatter = (value) => <CountUp end={value} duration={0.75} decimals={0} separator="," />;
+    const formatterDecimals = (value) => <CountUp end={value} duration={0.75} decimals={1} separator="," />;
 
-    const [stakingTVL, setStakingTVL] = useState(0);
+    const [stakingTVL, setStakingTVL] = useState(null);
+    const [acmePrice, setACMEPrice] = useState(null);
 
     const getStakingTVL = async () => {
         try {
@@ -51,13 +55,33 @@ const Index = () => {
             }
         }
         catch(error) {
-            setStakingTVL(-1);
+            setStakingTVL(null);
         }
+    }
+
+    const getACMEPrice = async () => {
+
+        setACMEPrice(null);
+    
+        try {
+            const response = await axios.get("https://api.coingecko.com/api/v3/coins/wrapped-accumulate");
+            if (response && response.data.market_data && response.data.market_data.current_price && response.data.market_data.current_price.usd) {
+                setACMEPrice(response.data.market_data.current_price.usd);
+            } else {
+                throw new Error("Coingecko API is not available"); 
+            }
+        }
+        catch(error) {
+            setACMEPrice(null);
+            message.error(error.message);
+        }
+    
     }
 
     useEffect(() => {
       document.title = "Accumulated Finance";
       getStakingTVL();
+      getACMEPrice();
     }, []);
 
     return (
@@ -69,16 +93,16 @@ const Index = () => {
                 <Title level={2}>Earn ACME staking rewards. Exit anytime.</Title>
                 <Row gutter={[16,32]} justify="center" style={{marginTop: '60px', marginBottom: '15px'}}>
                     <Col xs={24} sm={8} md={7} lg={6} xl={5}>
-                        <IconContext.Provider value={{ className: 'react-icons' }}><RiPercentLine /></IconContext.Provider>
-                        <Statistic title="Staking APR" value={"..."} suffix={""} precision={0} />
+                        <IconContext.Provider value={{ className: 'react-icons' }}><RiSafe2Line /></IconContext.Provider>
+                        <Statistic title="TVL" value={stakingTVL && acmePrice ? acmePrice*stakingTVL/(10**11) : "..."} prefix={"$"} suffix={"k"} formatter={stakingTVL && acmePrice ? formatterDecimals : null} />
                     </Col>
                     <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                         <IconContext.Provider value={{ className: 'react-icons' }}><RiDropLine /></IconContext.Provider>
-                        <Statistic title="Liquid Staking TVL" value={(stakingTVL/(10**8)).toFixed(8)} suffix={"ACME"} formatter={formatterRounded} />
+                        <Statistic title="Total ACME staked" value={stakingTVL ? (stakingTVL/(10**8)) : "..."} suffix={"ACME"} formatter={stakingTVL ? formatter : null} />
                     </Col>
                     <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                         <IconContext.Provider value={{ className: 'react-icons' }}><RiFundsLine /></IconContext.Provider>
-                        <Statistic title="Rewards Paid to veACFI" value={0} suffix={"ACME"} precision={2} formatter={formatter} />
+                        <Statistic title="Rewards paid to veACFI" value={0} suffix={"ACME"} formatter={formatter} />
                     </Col>
                 </Row>
             </Col>
@@ -115,7 +139,7 @@ const Index = () => {
                                                 <strong><IconContext.Provider value={{ className: 'react-icons react-icons-blue' }}><RiErrorWarningLine /></IconContext.Provider> Minimum staking amount: {nativeACMEStakingMin.toLocaleString()} ACME</strong>
                                             </Paragraph>
                                             <Descriptions layout="vertical" column={1}>
-                                                <Descriptions.Item label="ACME token account"><Text copyable>{stakingAccount}</Text></Descriptions.Item>
+                                                <Descriptions.Item label="ACME token account"><a href={"https://explorer.accumulatenetwork.io/acc/" + stakingAccount} target="_blank" rel="noreferrer"><Text copyable>{stakingAccount}</Text></a></Descriptions.Item>
                                                 <Descriptions.Item label="Tx memo"><Text mark>Your ETH address</Text></Descriptions.Item>
                                             </Descriptions>
                                         </div>
