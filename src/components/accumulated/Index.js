@@ -108,7 +108,7 @@ const Index = () => {
             </Col>
         </Row>
         <Row className="sections">
-            <Col span={24}>
+            <Col md={{ span: 24, offset: 0 }} lg={{ span: 18, offset: 3 }}>
                 <Collapse size="large" defaultActiveKey={['1']}>
                     <Panel header={<div>ACME Liquid Staking<IconContext.Provider value={{ className: 'react-icons react-icons-blue' }}><RiDropFill /></IconContext.Provider></div>} key="1">
                         <Alert message={
