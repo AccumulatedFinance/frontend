@@ -46,7 +46,7 @@ const AccumulatedFinance = props => {
                         <Badge color={"blue"} text="" />Connect Wallet
                     </Button>
                     <Button type="primary" ghost size="large" className="connect-button" shape="round" style={{ marginRight: 10 }} onClick={showModal}>
-                        ACFI Airdrop
+                        ACFI
                     </Button>
                 </Header>
 
@@ -72,7 +72,7 @@ const AccumulatedFinance = props => {
                     <p><Text type="secondary">50% of the platform fees will be distributed to ACFI holders who have locked their tokens (Voting Escrow model)</Text></p>
                 </div>
                 <Divider />
-                <Title level={4}>Participate in ACFI Airdrop</Title>
+                <Title level={4}>Participate in ACFI distribution</Title>
                 <Timeline
                     pending="To be continued..."
                     items={[

@@ -113,8 +113,8 @@ const Index = () => {
                     <Panel header={<div>ACME Liquid Staking<IconContext.Provider value={{ className: 'react-icons react-icons-blue' }}><RiDropFill /></IconContext.Provider></div>} key="1">
                         <Alert message={
                             <div>
-                                <Title level={5}><IconContext.Provider value={{ className: 'react-icons react-icons-green' }}><RiGiftLine /></IconContext.Provider> ACFI airdrop for early liquid stakers  <Tag color="#87d068" style={{verticalAlign: 'top', marginTop: 1}}>ACTIVE</Tag></Title>
-                                <Paragraph>Stake ACME or WACME during the early bird staking period to participate in ACFI airdrop!</Paragraph>
+                                <Title level={5}><IconContext.Provider value={{ className: 'react-icons react-icons-green' }}><RiGiftLine /></IconContext.Provider> ACFI distribution for early liquid stakers  <Tag color="#87d068" style={{verticalAlign: 'top', marginTop: 1}}>ACTIVE</Tag></Title>
+                                <Paragraph>Stake ACME or WACME during the early bird staking period to participate in ACFI distribution!</Paragraph>
                                 <Countdown title="Early bird liquid staking ends in:" value={deadline} format="Dd HH:mm:ss" />
                             </div>
                         }
