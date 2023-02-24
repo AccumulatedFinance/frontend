@@ -26,7 +26,7 @@ import {
     RiFundsLine, RiDropLine, RiGiftLine, RiDropFill, RiMoneyDollarCircleFill, RiLock2Fill, RiErrorWarningLine, RiSafe2Line
 } from 'react-icons/ri';
 
-import RPC from '../common/RPC';
+import AccumulateAPI from '../common/AccumulateAPI';
 
 const { Panel } = Collapse;
 const { Title, Text, Paragraph } = Typography;
@@ -47,7 +47,7 @@ const Index = () => {
     const getStakingTVL = async () => {
         try {
             let params = {url: stakingAccount};
-            const response = await RPC.request("query", params);
+            const response = await AccumulateAPI.request("query", params);
             if (response && response.data && response.data.balance) {
                 setStakingTVL(response.data.balance);
             } else {
