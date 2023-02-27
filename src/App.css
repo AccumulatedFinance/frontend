@@ -83,10 +83,6 @@ html {
   margin-top: 11px;
 }
 
-.connect-button .ant-badge-status {
-  margin-right: 8px;
-}
-
 .connect-button .ant-badge-status-text {
   font-size: 16px !important;
 }
@@ -170,4 +166,55 @@ html {
   vertical-align: middle;
   margin-top: -5px;
   margin-right: 8px;
+}
+
+.web3-form {
+  background: #f9f0ff;
+  border-radius: 8px;
+  padding: 6px 20px;
+  margin-bottom: 10px;
+}
+
+.web3-form .ant-form-item-label {
+  padding: 0;
+}
+
+.web3-form label {
+  font-weight: bold;
+}
+
+.web3-form .ant-form a {
+  color: #781ee1;
+}
+
+.web3-form .ant-input[disabled], .web3-form .ant-btn:disabled {
+  color: #8c8c8c;
+  background-color: #f0f0f0;
+}
+
+.web3-form .ant-input-group-addon {
+  background-color: #ffffff;
+}
+
+.web3-form .ant-input-group-addon .token-logo {
+  height: 20px;
+  margin-top: 1px;
+  margin-left: 6px;
+  vertical-align: top;
+}
+
+.web3-form .web3-buttons {
+  margin: 20px 0;
+}
+
+.web3-form .web3-buttons button {
+  margin-right: 10px;
+}
+
+.web3-form .ant-alert {
+  margin-bottom: 10px;
+}
+
+.web3-form .react-icons {
+  margin-left: 2px;
 }
