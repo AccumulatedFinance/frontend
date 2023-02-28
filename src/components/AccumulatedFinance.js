@@ -439,6 +439,17 @@ const AccumulatedFinance = props => {
                         <br />
                         <Text className={"made-by"}>Made with <IconContext.Provider value={{ className: 'react-icons' }}><RiHeartFill /></IconContext.Provider> by <a href="https://twitter.com/defacto_team" target="_blank" rel="noreferrer">De Facto</a></Text>
                     </Paragraph>
+                    <Paragraph className="made-by">
+                        <a href="https://docs.accumulated.finance" target="_blank" rel="noreferrer">Docs</a>
+                        <Divider type="vertical" />
+                        <a href="https://github.com/AccumulatedFinance" target="_blank" rel="noreferrer">GitHub</a>
+                        <Divider type="vertical" />
+                        <a href="https://twitter.com/AccumulatedFi" target="_blank" rel="noreferrer">Twitter</a>
+                        <Divider type="vertical" />
+                        <a href="https://t.me/AccumulatedFi" target="_blank" rel="noreferrer">Telegram</a>
+                        <Divider type="vertical" />
+                        <a href="https://medium.com/AccumulatedFi" target="_blank" rel="noreferrer">Medium</a>
+                    </Paragraph>
                 </Footer>
 
             </Layout>

@@ -76,6 +76,11 @@ html {
   border-color: rgba(255,255,255,1);
 }
 
+.ant-layout-footer .ant-divider {
+  border-color: rgba(255,255,255,0.15);
+  margin: 0 15px;
+}
+
 .connect-button {
   float: right;
   font-weight: 600;
