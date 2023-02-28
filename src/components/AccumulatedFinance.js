@@ -14,7 +14,7 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 
 import { IconContext } from "react-icons";
 import {
-    RiHeartFill, RiFundsLine, RiDropLine, RiGiftLine, RiDropFill, RiMoneyDollarCircleFill, RiLock2Fill, RiSafe2Line, RiExternalLinkLine
+    RiHeartFill, RiFundsLine, RiDropLine, RiGiftLine, RiDropFill, RiMoneyDollarCircleFill, RiLock2Fill, RiSafe2Line, RiExternalLinkLine, RiGithubFill, RiTwitterFill, RiTelegramFill, RiMediumFill
 } from 'react-icons/ri';
 
 import Logo from './common/Logo';
@@ -439,16 +439,24 @@ const AccumulatedFinance = props => {
                         <br />
                         <Text className={"made-by"}>Made with <IconContext.Provider value={{ className: 'react-icons' }}><RiHeartFill /></IconContext.Provider> by <a href="https://twitter.com/defacto_team" target="_blank" rel="noreferrer">De Facto</a></Text>
                     </Paragraph>
-                    <Paragraph className="made-by">
-                        <a href="https://docs.accumulated.finance" target="_blank" rel="noreferrer">Docs</a>
+                    <Paragraph>
+                        <a className={"made-by"} href="https://docs.accumulated.finance" target="_blank" rel="noreferrer">Docs</a>
                         <Divider type="vertical" />
-                        <a href="https://github.com/AccumulatedFinance" target="_blank" rel="noreferrer">GitHub</a>
-                        <Divider type="vertical" />
-                        <a href="https://twitter.com/AccumulatedFi" target="_blank" rel="noreferrer">Twitter</a>
-                        <Divider type="vertical" />
-                        <a href="https://t.me/AccumulatedFi" target="_blank" rel="noreferrer">Telegram</a>
-                        <Divider type="vertical" />
-                        <a href="https://medium.com/AccumulatedFi" target="_blank" rel="noreferrer">Medium</a>
+                        <a className={"icon-link"} href="https://github.com/AccumulatedFinance" target="_blank" rel="noreferrer">
+                            <IconContext.Provider value={{ className: 'react-icons' }}><RiGithubFill /></IconContext.Provider>
+                        </a>
+                        <Divider type="vertical" className={"divider-invisible"} />
+                        <a className={"icon-link"} href="https://twitter.com/AccumulatedFi" target="_blank" rel="noreferrer">
+                            <IconContext.Provider value={{ className: 'react-icons' }}><RiTwitterFill /></IconContext.Provider>
+                        </a>
+                        <Divider type="vertical" className={"divider-invisible"} />
+                        <a className={"icon-link"} href="https://t.me/AccumulatedFi" target="_blank" rel="noreferrer">
+                            <IconContext.Provider value={{ className: 'react-icons' }}><RiTelegramFill /></IconContext.Provider>
+                        </a>
+                        <Divider type="vertical" className={"divider-invisible"} />
+                        <a className={"icon-link"} href="https://medium.com/AccumulatedFi" target="_blank" rel="noreferrer">
+                            <IconContext.Provider value={{ className: 'react-icons' }}><RiMediumFill /></IconContext.Provider>
+                        </a>
                     </Paragraph>
                 </Footer>
 

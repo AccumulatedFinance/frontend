@@ -81,6 +81,15 @@ html {
   margin: 0 15px;
 }
 
+.ant-layout-footer .icon-link {
+  border: 0;
+}
+
+.ant-layout-footer .divider-invisible {
+  border-width: 0;
+  margin: 0 8px;
+}
+
 .connect-button {
   float: right;
   font-weight: 600;
