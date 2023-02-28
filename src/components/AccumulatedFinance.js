@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 import axios from 'axios';
 
-import { Layout, Button, Badge, Modal, Typography, Timeline, Divider, Row, Col, Statistic, Collapse, Alert, Tag, Tabs, Form, Input, Descriptions, message, Tooltip } from 'antd';
+import { Layout, Button, Badge, Modal, Typography, Timeline, Divider, Row, Col, Statistic, Collapse, Alert, Tag, Tabs, Form, Input, Descriptions, message, Tooltip, Popover } from 'antd';
 
 import CountUp from 'react-countup';
 
@@ -293,15 +293,27 @@ const AccumulatedFinance = props => {
                             <Badge color={"blue"} text="Connect Wallet" />
                         </Button>
                     ) : 
-                        <Button size="large" className="connect-button" shape="round" onClick={() => disconnect()}>
-                            {chainId === parseInt(process.env.REACT_APP_CHAIN_ID) ? (
-                                <Badge color={"green"} text={account ? truncateAddress(account) : "Connected"} />
-                            ) :
-                                <Badge color={"red"} text="Invalid Network" />
-                            }
-                        </Button>
+                        <Popover arrow={false} overlayClassName={"popover-connected"} content={
+                            <div>
+                                <Paragraph>
+                                    <Text type="secondary">Account</Text><br />
+                                    <Text copyable>{account ? account : "No account"}</Text>
+                                </Paragraph>
+                                <Paragraph style={{marginTop: 8}}>
+                                    <Button type="primary" danger onClick={() => disconnect()}>Disconnect</Button>
+                                </Paragraph>
+                            </div>
+                        } trigger="click" placement="bottomRight">
+                            <Button size="large" className="connect-button" shape="round">
+                                {chainId === parseInt(process.env.REACT_APP_CHAIN_ID) ? (
+                                    <Badge color={"green"} text={account ? truncateAddress(account) : "Connected"} />
+                                ) :
+                                    <Badge color={"red"} text="Invalid Network" />
+                                }
+                            </Button>
+                        </Popover>
                     }
-                    <Button type="primary" ghost size="large" className="connect-button" shape="round" style={{ marginRight: 10 }} onClick={showModal}>
+                    <Button size="large" className="connect-button" shape="round" style={{ marginRight: 10 }} onClick={showModal}>
                         ACFI
                     </Button>
                 </Header>

@@ -43,7 +43,8 @@ html {
 }
 
 .ant-layout-header {
-  background: #FFF !important;
+  background: #F5F5F5 !important;
+  background: linear-gradient(90deg, #ffffff 0%, #efefef 100%) !important;
   padding-inline: 20px !important;
   overflow: hidden !important;
 }
@@ -231,4 +232,13 @@ html {
 
 .web3-form .react-icons {
   margin-left: 2px;
+}
+
+.popover-connected .ant-typography {
+  margin-bottom: 0;
+}
+
+.popover-connected .ant-popover-inner {
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
 }
