@@ -474,7 +474,7 @@ const AccumulatedFinance = props => {
 
             </Layout>
 
-            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 <div style={{ textAlign: 'center' }}>
                     <Title level={2} style={{marginBottom: 5}}><LogoToken />ACFI</Title>
                     <Title level={5} style={{marginTop: 0, marginBottom: 20, fontWeight: 400}}>Accumulated Finance Governance Token</Title>
@@ -482,12 +482,13 @@ const AccumulatedFinance = props => {
                 </div>
                 <Divider />
                 <Title level={4}>Participate in ACFI distribution</Title>
+                <p><Text type="secondary">There will be several rounds of distribution to the community and early adopters:</Text></p>
                 <Timeline
                     pending="To be continued..."
                     items={[
                     {
                         children: (
-                            <p><Text type="secondary">February 20 – March 5</Text><br />ACME Liquid Staking Early Users</p>
+                            <p><Text type="secondary">February 20 – March 9</Text><br />ACME Liquid Staking Early Users</p>
                         ),
                         color: 'green'
                     },
