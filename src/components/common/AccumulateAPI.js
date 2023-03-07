@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-class RPC {
+class AccumulateAPI {
   constructor(opts) {
     this._opts = { ...opts };
     this.currId = 1;
@@ -43,6 +43,6 @@ class RPC {
 
 }
 
-const Client = new RPC();
+const Client = new AccumulateAPI();
 
 export default Client;
