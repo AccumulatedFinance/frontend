@@ -36,7 +36,14 @@ export const decimalCount = (num) => {
 }
 
 export const toRoundedDown = (num, precision) => {
-  const  p = Math.pow(10, precision)
+  const p = Math.pow(10, precision)
   const result = Math.floor((Number(num) + Number.EPSILON) * p) / p
   return Number(result)
+}
+
+export const calculateAPR = (rewardRate, rewardDuration, totalStaked) => {
+  const secondPerYear = 86400 * 365;
+  const rate = rewardRate * rewardDuration / totalStaked;
+  const apr = (1+rate) ** (secondPerYear / rewardDuration) - 1;
+  return apr.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }

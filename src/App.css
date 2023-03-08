@@ -140,6 +140,34 @@ html {
   margin-bottom: 0;
 }
 
+.sections .ant-collapse-header-text {
+  vertical-align: middle;
+}
+
+.sections .ant-collapse-header-text .ant-tag {
+  font-weight: normal !important;
+}
+
+.sections .ant-collapse-expand-icon {
+  display: none !important;
+}
+
+.sections .ant-collapse-header-text .ant-col {
+  font-size: 15px !important;
+}
+
+.sections .ant-collapse-header-text .product-logo {
+  height: 26px;
+  margin-top: -3px;
+  margin-right: 8px;
+}
+
+.sections .ant-collapse-header-text .product-logo-overlay {
+  position: absolute;
+  top: 2px;
+  left: 18px;
+}
+
 .sections .ant-collapse-item {
   margin-bottom: 16px;
 }
@@ -241,4 +269,39 @@ html {
 .popover-connected .ant-popover-inner {
   background-color: #ffffff;
   border: 1px solid #d9d9d9;
+}
+
+.ant-tabs .react-icons {
+  margin-right: 8px;
+  opacity: 0.4;
+}
+
+.ant-tabs .ant-tabs-tab-active .react-icons {
+  opacity: 1;
+}
+
+.ant-tabs .earned-usd {
+  font-size: 80%;
+  margin-left: 6px;
+  color: #389e0d;
+}
+
+.ant-alert.banner-description {
+  border-width: 0 0 0 8px !important;
+  border-style: solid !important;
+  padding-left: 15px;
+  margin-bottom: 10px;
+}
+
+.panel-soon {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 0 !important;
+}
+
+.panel-soon .react-icons {
+  margin-right: 4px;
+  margin-top: -3px;
+  vertical-align: middle;
+  color: #781ee1;
 }

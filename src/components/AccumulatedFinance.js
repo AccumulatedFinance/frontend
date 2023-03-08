@@ -14,31 +14,34 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 
 import { IconContext } from "react-icons";
 import {
-    RiHeartFill, RiFundsLine, RiDropLine, RiGiftLine, RiDropFill, RiMoneyDollarCircleFill, RiLock2Fill, RiSafe2Line, RiExternalLinkLine, RiGithubFill, RiTwitterFill, RiTelegramFill, RiMediumFill
+    RiHeartFill, RiFundsLine, RiDropLine, RiSafe2Line, RiExternalLinkLine, RiGithubFill, RiTwitterFill, RiTelegramFill, RiMediumFill, RiPercentLine, RiHandCoinLine, RiLogoutBoxLine, RiWaterFlashLine, RiInformationLine
 } from 'react-icons/ri';
+
+import {
+    CheckCircleOutlined, ClockCircleOutlined
+  } from '@ant-design/icons';
 
 import Logo from './common/Logo';
 import LogoToken from './common/LogoToken';
 import ScrollToTop from './common/ScrollToTop';
 import AccumulateAPI from './common/AccumulateAPI';
 
-import { truncateAddress, web3BNToFloatString, toRoundedDown, decimalCount } from "./utils";
+import { truncateAddress, web3BNToFloatString, toRoundedDown, decimalCount, calculateAPR } from "./utils";
 import BigNumber from 'bignumber.js'
 
 import LiquidStakingABI from './../abi/ACMELIquidStaking.json';
 import TokenABI from './../abi/WrappedToken.json';
+import StakingRewardsABI from './../abi/StakingRewards.json';
 
 import stACMELogo from './../stacme.svg';
 import WACMELogo from './../wacme.svg';
+import ACFILogo from './../acfi.svg';
 
 const { Panel } = Collapse;
 const { Header, Content, Footer } = Layout;
 const { Text, Paragraph, Title } = Typography;
-const { Countdown } = Statistic;
 
 const AccumulatedFinance = props => {
-
-    const deadline = 1678406399000;
 
     const etherscan = process.env.REACT_APP_ETHERSCAN;
     const pow = new BigNumber('10').pow(new BigNumber(8));
@@ -50,6 +53,7 @@ const AccumulatedFinance = props => {
     const [lsContract, setLSContract] = useState(null);
     const [wacmeContract, setWACMEContract] = useState(null);
     const [stacmeContract, setStACMEContract] = useState(null);
+    const [srContract, setSRContract] = useState(null);
     const [stakingAccount, setStakingAccount] = useState(null);
     const [stakingTVL, setStakingTVL] = useState(null);
     const [acmePrice, setACMEPrice] = useState(null);
@@ -61,9 +65,24 @@ const AccumulatedFinance = props => {
     const [wacmeAllowance, setWACMEAllowance] = useState(0);
     const [wacmeIsApprovingLS, setWACMEIsApprovingLS] = useState(false);
     const [wacmeFormTxHash, setWACMEFormTxHash] = useState(null);
+
     const [stacmeBalance, setStACMEBalance] = useState(0);
     const [stacmeAmount, setStACMEAmount] = useState(0);
-    // const [stacmeallowance, setStACMEAllowance] = useState(0);  
+    const [stacmeAllowance, setStACMEAllowance] = useState(0);
+    const [stacmeIsApprovingSR, setStACMEIsApprovingSR] = useState(false);
+    const [stacmeFormTxHash, setStACMEFormTxHash] = useState(null);
+
+    const [stacmeEarned, setStACMEEarned] = useState(0);
+    const [stakingRewardRate, setStakingRewardRate] = useState(0);
+    const [stakingRewardDuration, setStakingRewardDuration] = useState(0);
+    const [stakingTotal, setStakingTotal] = useState(0);
+
+    const [stakedBalanceRaw, setStakedBalanceRaw] = useState(0);
+    const [stakedBalance, setStakedBalance] = useState(0);
+    const [stakedAmount, setStakedAmount] = useState(0);
+    const [unstakeFormTxHash, setUnstakeFormTxHash] = useState(null);
+
+    const [claimFormTxHash, setClaimFormTxHash] = useState(null);
 
     const injected = new InjectedConnector();
 
@@ -107,11 +126,14 @@ const AccumulatedFinance = props => {
         setWACMEBalance(0);
         setStACMEBalance(0);
         setWACMEAllowance(0);
+        setStACMEEarned(0);
+        setStakedBalance(0);
+        setStakedBalanceRaw(0);
     }
 
     const compare = (allowance, value) => {
         let amount = value*pow;
-        if (allowance > amount) {
+        if (allowance >= amount) {
           return true;
         }
         return false;
@@ -147,6 +169,17 @@ const AccumulatedFinance = props => {
         setStACMEAmount(event.target.value);
     };
 
+    const handleChangeStakedAmount = (event) => {
+        if (isNaN(Number(event.target.value))) {
+            return
+        }
+        if (decimalCount(event.target.value) > 8) {
+            setStakedAmount(toRoundedDown(event.target.value, 8));
+            return
+        }
+        setStakedAmount(event.target.value);
+    };
+
     const getBalance = (address) => {
         const contract = new window.web3.eth.Contract(TokenABI, address);
         contract.methods.balanceOf(account).call().then(balance_ => {
@@ -158,6 +191,23 @@ const AccumulatedFinance = props => {
             }
         })
     };
+
+    const getStakingData = () => {
+        const contract = new window.web3.eth.Contract(StakingRewardsABI, srContract._address);
+        contract.methods.balanceOf(account).call().then(balance_ => {
+            setStakedBalanceRaw(balance_);
+            setStakedBalance(web3BNToFloatString(balance_, pow, 8));
+        })
+        contract.methods.earned(account).call().then(balance_ => {
+            setStACMEEarned(web3BNToFloatString(balance_, pow, 8));
+        })
+    };
+
+    const refreshStakingRewardsContract = () => {
+        srContract.methods.rewardRate().call().then(setStakingRewardRate);
+        srContract.methods.totalSupply().call().then(setStakingTotal);
+        srContract.methods.duration().call().then(setStakingRewardDuration);
+    }
     
     const getAllowance = (address, spender) => {
         const contract = new window.web3.eth.Contract(TokenABI, address);
@@ -166,7 +216,7 @@ const AccumulatedFinance = props => {
                 setWACMEAllowance(allowance_);
             }
             if (address === stacmeContract) {
-                // setstACMEAllowance(allowance_);
+                setStACMEAllowance(allowance_);
             }
         })
     };
@@ -176,15 +226,26 @@ const AccumulatedFinance = props => {
         if (address === wacmeContract && spender === lsContract._address) {
             setWACMEIsApprovingLS(true);
         }
+        if (address === stacmeContract && spender === srContract._address) {
+            setStACMEIsApprovingSR(true);
+        }
         if (contract) {
             message.info("Please sign the approval tx");
             contract.methods.approve(spender, maxApproval)
             .send({from: account})
             .once("transactionHash", async (txhash) => {
-                setWACMEFormTxHash(txhash);
+                if (address === wacmeContract) {
+                    setWACMEFormTxHash(txhash);                    
+                }
+                if (address === stacmeContract) {
+                    setStACMEFormTxHash(txhash);
+                }
             }).then(_ => {
                 if (address === wacmeContract && spender === lsContract._address) {
                     setWACMEIsApprovingLS(false);
+                }
+                if (address === stacmeContract && spender === srContract._address) {
+                    setStACMEIsApprovingSR(false);
                 }
                 getAllowance(address, spender);
             }).catch(error => {
@@ -192,6 +253,7 @@ const AccumulatedFinance = props => {
                     message.error(error.message);
                 }
                 setWACMEIsApprovingLS(false);
+                setStACMEIsApprovingSR(false);
             });
         }
     };
@@ -207,6 +269,60 @@ const AccumulatedFinance = props => {
             getBalance(wacmeContract);
             getBalance(stacmeContract);
             setWACMEAmount(0);
+        }).catch(error => {
+            if (error.message) {
+                message.error(error.message);
+            }
+        });
+    };
+
+    const handleStACMEStake = () => {
+        let contract = new window.web3.eth.Contract(StakingRewardsABI, srContract._address);
+        const amountBig = new BigNumber(stacmeAmount, 10)*1e8;
+        contract.methods.stake(amountBig)
+        .send({from: account})
+        .once("transactionHash", async (txhash) => {
+            setStACMEFormTxHash(txhash);
+        }).then(_ => {
+            getBalance(stacmeContract);
+            getStakingData();
+            setStACMEAmount(0);
+            refreshStakingRewardsContract();
+        }).catch(error => {
+            if (error.message) {
+                message.error(error.message);
+            }
+        });
+    };
+
+    const handleStACMEUnstake = () => {
+        let contract = new window.web3.eth.Contract(StakingRewardsABI, srContract._address);
+        const amountBig = new BigNumber(stakedAmount, 10)*1e8;
+        contract.methods.withdraw(amountBig)
+        .send({from: account})
+        .once("transactionHash", async (txhash) => {
+            setUnstakeFormTxHash(txhash);
+        }).then(_ => {
+            getBalance(stacmeContract);
+            getStakingData();
+            setStakedAmount(0);
+            refreshStakingRewardsContract();
+        }).catch(error => {
+            if (error.message) {
+                message.error(error.message);
+            }
+        });
+    };
+
+    const handleGetReward = () => {
+        let contract = new window.web3.eth.Contract(StakingRewardsABI, srContract._address);
+        contract.methods.getReward()
+        .send({from: account})
+        .once("transactionHash", async (txhash) => {
+            setClaimFormTxHash(txhash);
+        }).then(_ => {
+            getBalance(stacmeContract);
+            getStakingData();
         }).catch(error => {
             if (error.message) {
                 message.error(error.message);
@@ -253,6 +369,8 @@ const AccumulatedFinance = props => {
         getACMEPrice();
         let contract = new window.web3.eth.Contract(LiquidStakingABI, process.env.REACT_APP_LIQUID_STAKING_CONTRACT);
         setLSContract(contract);
+        let contract2 = new window.web3.eth.Contract(StakingRewardsABI, process.env.REACT_APP_STAKING_REWARDS_CONTRACT);
+        setSRContract(contract2);
     }, []);
 
     useEffect(() => {
@@ -262,6 +380,12 @@ const AccumulatedFinance = props => {
             lsContract.methods.stakingAccount().call().then(setStakingAccount);
         }
     }, [lsContract])
+
+    useEffect(() => {
+        if (srContract) {
+            refreshStakingRewardsContract();
+        }
+    }, [srContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (stakingAccount) {
@@ -274,8 +398,10 @@ const AccumulatedFinance = props => {
             getBalance(wacmeContract);
             getAllowance(wacmeContract, lsContract._address);
         }
-        if (stacmeContract && lsContract && lsContract._address && account) {
+        if (stacmeContract && srContract && srContract._address && account) {
             getBalance(stacmeContract);
+            getAllowance(stacmeContract, srContract._address);
+            getStakingData();
         }
     }, [account]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -345,28 +471,55 @@ const AccumulatedFinance = props => {
 
                     <Row className="sections">
                         <Col md={{ span: 24, offset: 0 }} lg={{ span: 18, offset: 3 }} style={{ width: "100%" }}>
-                            <Collapse size="large" defaultActiveKey="1">
-                                <Panel header={<div>ACME Liquid Staking<IconContext.Provider value={{ className: 'react-icons react-icons-blue' }}><RiDropFill /></IconContext.Provider></div>} key="1">
-                                    <ul>
-                                        <li>Deposit WACME to get stACME</li>
-                                        <li>By staking stACME, you are earning a share of ACME staking rewards</li>
-                                    </ul>
+                            <Collapse size="large" defaultActiveKey="1" expandIcon={null}>
+                                <Panel header={
+                                    <Row wrap={false}>
+                                        <Col flex="none">
+                                            <nobr>
+                                                <img src={stACMELogo} alt="stACME" className="product-logo" />
+                                                ACME Liquid Staking
+                                            </nobr>
+                                        </Col>
+                                        <Col flex="auto" style={{textAlign: "right"}}>
+                                            <Tag color="#1677ff" style={{fontWeight: "normal"}}>TVL: {acmePrice && stakingTotal ? ( <strong>${(acmePrice*stakingTotal/10**8).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</strong> ) : "..."}</Tag>
+                                            <Tag color="#2f54eb" style={{fontWeight: "normal"}}>APR: {stakingRewardRate && stakingRewardDuration && stakingTotal ? ( <strong>{calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal)} %</strong> ) : "..."}</Tag>
+                                        </Col>
+                                    </Row>
+                                } key="1">
+                                   
+                                    <Alert
+                                        message={
+                                            <Row gutter={[0,8]}>
+                                                <Col xs={24} sm={10}>
+                                                    <strong>My staked stACME:</strong>
+                                                    <br />
+                                                    {stakedBalance.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} stACME
+                                                </Col>
+                                                <Col xs={24} sm={10}>
+                                                    <strong>My rewards:</strong>
+                                                    <br />
+                                                    {stacmeEarned.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} stACME
+                                                </Col>
+                                                <Col xs={24} sm={4}>
+                                                    <strong>My vAPR:</strong>
+                                                    <br />
+                                                    {stakingRewardRate && stakingRewardDuration && stakingTotal ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}
+                                                </Col>
+                                            </Row>
+                                        }
+                                        showIcon={false}
+                                        type="info"
+                                        className="banner-description"
+                                    />
                                     <Tabs
                                         size="large"
                                         defaultActiveKey="1"
                                             items={[
                                             {
-                                                label: 'Deposit WACME',
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiWaterFlashLine /></IconContext.Provider>Deposit WACME</div>),
                                                 key: '1',
                                                 children: 
                                                     <div>
-                                                        <Alert message={
-                                                            <div>
-                                                                <Title level={5}><IconContext.Provider value={{ className: 'react-icons react-icons-green' }}><RiGiftLine /></IconContext.Provider> ACFI distribution for early users  <Tag color="#87d068" style={{verticalAlign: 'top', marginTop: 1}}>ACTIVE</Tag></Title>
-                                                                <Countdown title="Deposit WACME during the early bird period to participate:" value={deadline} format="Dd HH:mm:ss" />
-                                                            </div>
-                                                        }
-                                                        type="success" style={{marginBottom: 15}} />
                                                         <div className="web3-form">
                                                             <Form
                                                                 layout="vertical"
@@ -392,7 +545,7 @@ const AccumulatedFinance = props => {
                                                     </div>,
                                             },
                                             {
-                                                label: 'Stake stACME',
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiPercentLine /></IconContext.Provider>Stake stACME</div>),
                                                 key: '2',
                                                 children: <div className="web3-form">
                                                     <Form
@@ -404,14 +557,60 @@ const AccumulatedFinance = props => {
                                                             <Input onChange={handleChangeStACMEAmount} value={stacmeAmount} addonAfter={<Text>stACME<img src={stACMELogo} className="token-logo" alt="stACME" /></Text>} />
                                                             <Link onClick={() => { setStACMEAmount(stacmeBalance); }}>Available: {stacmeBalance} stACME</Link>
                                                         </Form.Item>
-                                                        <Form.Item>
-                                                            <Text mark>The staking contract will be deployed after the early bird period</Text>
-                                                        </Form.Item>
                                                         <Form.Item className="web3-buttons">
-                                                            <Button size="large" type="primary" disabled>Approve</Button>
-                                                            <Button size="large" type="primary" disabled>Stake</Button>
+                                                            <Button size="large" type="primary" onClick={() => handleApprove(stacmeContract, srContract._address)} disabled={compare(stacmeAllowance, stacmeAmount) || stacmeIsApprovingSR || !account}>{stacmeIsApprovingSR ? "Approving..." : "Approve"}</Button>
+                                                            <Button size="large" type="primary" onClick={handleStACMEStake} disabled={!compare(stacmeAllowance, stacmeAmount) || getAmount(stacmeAmount) === 0 || stacmeIsApprovingSR || !account}>Stake</Button>
                                                         </Form.Item>
                                                     </Form>
+                                                    {stacmeFormTxHash ? (
+                                                        <Alert message={<Text>Tx sent: <a href={etherscan + "/tx/" + stacmeFormTxHash} target="_blank" rel="noreferrer">{stacmeFormTxHash}<IconContext.Provider value={{ className: 'react-icons' }}><RiExternalLinkLine /></IconContext.Provider></a></Text>} type="success" showIcon />                                                                
+                                                    ) : null}
+                                                </div>,
+                                            },
+                                            {
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiHandCoinLine /></IconContext.Provider>Claim rewards
+                                                {acmePrice && stacmeEarned && stacmeEarned !== "0.00000000" ? (<span className="earned-usd">(${(stacmeEarned*acmePrice).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})})</span> ) : null}
+                                                </div>),
+                                                key: '3',
+                                                children: <div className="web3-form">
+                                                    <Form
+                                                        layout="vertical"
+                                                        size={"large"}
+                                                        style={{maxWidth: 300}}
+                                                        >
+                                                        <Form.Item label="Staking rewards">
+                                                            You have earned: <strong>{stacmeEarned} stACME</strong><br />
+                                                            Liquid staking APR: <strong>{stakingRewardRate && stakingRewardDuration && stakingTotal ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}</strong>
+                                                        </Form.Item>
+                                                        <Form.Item className="web3-buttons">
+                                                            <Button size="large" type="primary" onClick={handleGetReward} disabled={!account}>Claim</Button>
+                                                        </Form.Item>
+                                                    </Form>
+                                                    {claimFormTxHash ? (
+                                                        <Alert message={<Text>Tx sent: <a href={etherscan + "/tx/" + claimFormTxHash} target="_blank" rel="noreferrer">{claimFormTxHash}<IconContext.Provider value={{ className: 'react-icons' }}><RiExternalLinkLine /></IconContext.Provider></a></Text>} type="success" showIcon />                                                                
+                                                    ) : null}
+                                                </div>,
+                                            },
+                                            {
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiLogoutBoxLine /></IconContext.Provider>Unstake stACME</div>),
+                                                key: '4',
+                                                children: <div className="web3-form">
+                                                    <Form
+                                                        layout="vertical"
+                                                        size={"large"}
+                                                        style={{maxWidth: 300}}
+                                                        >
+                                                        <Form.Item label="Amount of stACME to unstake:">
+                                                            <Input onChange={handleChangeStakedAmount} value={stakedAmount} addonAfter={<Text>stACME<img src={stACMELogo} className="token-logo" alt="stACME" /></Text>} />
+                                                            <Link onClick={() => { setStakedAmount(stakedBalance); }}>Staked: {stakedBalance} stACME</Link>
+                                                        </Form.Item>
+                                                        <Form.Item className="web3-buttons">
+                                                            <Button size="large" type="primary" onClick={handleStACMEUnstake} disabled={!compare(stakedBalanceRaw, stakedAmount) || getAmount(stakedAmount) === 0 || !account}>Unstake</Button>
+                                                        </Form.Item>
+                                                    </Form>
+                                                    {unstakeFormTxHash ? (
+                                                        <Alert message={<Text>Tx sent: <a href={etherscan + "/tx/" + unstakeFormTxHash} target="_blank" rel="noreferrer">{unstakeFormTxHash}<IconContext.Provider value={{ className: 'react-icons' }}><RiExternalLinkLine /></IconContext.Provider></a></Text>} type="success" showIcon />                                                                
+                                                    ) : null}
                                                 </div>,
                                             },
                                         ]}
@@ -420,24 +619,57 @@ const AccumulatedFinance = props => {
                                         <Descriptions.Item label="WACME">{wacmeContract ? <a href={etherscan + "/address/" + wacmeContract} target="_blank" rel="noreferrer"><Text copyable>{wacmeContract}</Text></a> : null}</Descriptions.Item>
                                         <Descriptions.Item label="stACME">{stacmeContract ? <a href={etherscan + "/address/" + stacmeContract} target="_blank" rel="noreferrer"><Text copyable>{stacmeContract}</Text></a> : null}</Descriptions.Item>
                                         <Descriptions.Item label="Deposit contract">{lsContract && lsContract._address ? <a href={etherscan + "/address/" + lsContract._address} target="_blank" rel="noreferrer"><Text copyable>{lsContract._address}</Text></a> : null}</Descriptions.Item>
+                                        <Descriptions.Item label="Rewards contract">{srContract && srContract._address ? <a href={etherscan + "/address/" + srContract._address} target="_blank" rel="noreferrer"><Text copyable>{srContract._address}</Text></a> : null}</Descriptions.Item>
                                     </Descriptions>
                                 </Panel>
                             </Collapse>
                             <Collapse size="large">
-                                <Panel header={<div>Curve stACME/WACME Yield Farming<IconContext.Provider value={{ className: 'react-icons react-icons-green' }}><RiMoneyDollarCircleFill /></IconContext.Provider></div>} key="1">
-                                    <ul>
-                                        <li>Provide liquidity into stACME/WACME Curve pool, get WACME rewards</li>
-                                    </ul>
+                                <Panel header={
+                                    <Row wrap={false}>
+                                        <Col flex="none">
+                                            <nobr>
+                                                <img src={stACMELogo} alt="stACME" className="product-logo" style={{marginRight: 26}} />
+                                                <img src={WACMELogo} alt="WACME" className="product-logo product-logo-overlay" />
+                                                stACME/WACME Curve LP
+                                            </nobr>
+                                        </Col>
+                                        <Col flex="auto" style={{textAlign: "right"}}><Tag color="#722ed1">Launch soon</Tag></Col>
+                                    </Row>
+                                } key="1">
+                                    <Alert
+                                        message={<span>Provide liquidity into stACME/WACME Curve pool, get WACME rewards</span>}
+                                        showIcon={false}
+                                        type="info"
+                                        className="banner-description"
+                                    />
+                                    <Paragraph className="panel-soon">
+                                        <IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider>
+                                        stACME/WACME Curve pool will be launched soon
+                                    </Paragraph>
                                 </Panel>
                             </Collapse>
                             <Collapse size="large">
-                                <Panel header={<div>ACFI Locker<IconContext.Provider value={{ className: 'react-icons react-icons-yellow' }}><RiLock2Fill /></IconContext.Provider></div>} key="1">
-                                    <ul>
-                                        <li>ACFI is Accumulated Finance governance token</li>
-                                        <li>Lock ACFI to get veACFI <Text type="secondary">(voting escrow ACFI)</Text></li>
-                                        <li>veACFI participates in platform governance</li>
-                                        <li>veACFI earns platform fees</li>
-                                    </ul>
+                                <Panel header={
+                                    <Row wrap={false}>
+                                        <Col flex="none">
+                                            <nobr>
+                                                <img src={ACFILogo} alt="ACFI" className="product-logo" />
+                                                ACFI Locker
+                                            </nobr>
+                                        </Col>
+                                        <Col flex="auto" style={{textAlign: "right"}}><Tag color="#722ed1">Launch soon</Tag></Col>
+                                    </Row>
+                                } key="1">
+                                <Alert
+                                        message={<span>Lock ACFI to participate in platform governance and earns platform fees</span>}
+                                        showIcon={false}
+                                        type="info"
+                                        className="banner-description"
+                                    />
+                                    <Paragraph className="panel-soon">
+                                        <IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider>
+                                        ACFI will be launched soon
+                                    </Paragraph>
                                 </Panel>
                             </Collapse>
                         </Col>
@@ -490,13 +722,15 @@ const AccumulatedFinance = props => {
                         children: (
                             <p><Text type="secondary">February 20 – March 9</Text><br />ACME Liquid Staking Early Users</p>
                         ),
-                        color: 'green'
+                        color: 'green',
+                        dot: <CheckCircleOutlined />
                     },
                     {
                         children: (
                             <p><Text type="secondary">To be announced</Text><br />Curve stACME/WACME Early Liquidity Providers</p>
                         ),
-                        color: 'gray'
+                        color: 'gray',
+                        dot: <ClockCircleOutlined />
                     },
                     ]}
                     style={{marginTop: 30}}
