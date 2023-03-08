@@ -44,6 +44,6 @@ export const toRoundedDown = (num, precision) => {
 export const calculateAPR = (rewardRate, rewardDuration, totalStaked) => {
   const secondPerYear = 86400 * 365;
   const rate = rewardRate * rewardDuration / totalStaked;
-  const apr = (1+rate) ** (secondPerYear / rewardDuration) - 1;
+  const apr = ((1+rate) ** (secondPerYear / rewardDuration) - 1) * 100;
   return apr.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }

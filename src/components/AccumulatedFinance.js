@@ -18,6 +18,10 @@ import {
 } from 'react-icons/ri';
 
 import {
+    TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled
+} from 'react-icons/tb';
+
+import {
     CheckCircleOutlined, ClockCircleOutlined
   } from '@ant-design/icons';
 
@@ -541,8 +545,8 @@ const AccumulatedFinance = props => {
                                                                     <Input onChange={handleChangeWACMEAmount} value={wacmeAmount} addonAfter={<Text>stACME<img src={stACMELogo} className="token-logo" alt="stACME" /></Text>} />
                                                                 </Form.Item>
                                                                 <Form.Item className="web3-buttons">
-                                                                    <Button size="large" type="primary" onClick={() => handleApprove(wacmeContract, lsContract._address)} disabled={compare(wacmeAllowance, wacmeAmount) || wacmeIsApprovingLS || !account}>{wacmeIsApprovingLS ? "Approving..." : "Approve"}</Button>
-                                                                    <Button size="large" type="primary" onClick={handleWACMEDeposit} disabled={!compare(wacmeAllowance, wacmeAmount) || getAmount(wacmeAmount) === 0 || wacmeIsApprovingLS || !account}>Deposit</Button>
+                                                                    <Button size="large" type="primary" onClick={() => handleApprove(wacmeContract, lsContract._address)} disabled={compare(wacmeAllowance, wacmeAmount) || wacmeIsApprovingLS || !account}><IconContext.Provider value={{ className: 'react-icons' }}><TbSquareRoundedNumber1Filled /></IconContext.Provider>{wacmeIsApprovingLS ? "Approving..." : "Approve"}</Button>
+                                                                    <Button size="large" type="primary" onClick={handleWACMEDeposit} disabled={!compare(wacmeAllowance, wacmeAmount) || getAmount(wacmeAmount) === 0 || wacmeIsApprovingLS || !account}><IconContext.Provider value={{ className: 'react-icons' }}><TbSquareRoundedNumber2Filled /></IconContext.Provider>Deposit</Button>
                                                                 </Form.Item>
                                                             </Form>
                                                             {wacmeFormTxHash ? (
@@ -565,8 +569,8 @@ const AccumulatedFinance = props => {
                                                             <Link onClick={() => { setStACMEAmount(stacmeBalance); }}>Available: {stacmeBalance} stACME</Link>
                                                         </Form.Item>
                                                         <Form.Item className="web3-buttons">
-                                                            <Button size="large" type="primary" onClick={() => handleApprove(stacmeContract, srContract._address)} disabled={compare(stacmeAllowance, stacmeAmount) || stacmeIsApprovingSR || !account}>{stacmeIsApprovingSR ? "Approving..." : "Approve"}</Button>
-                                                            <Button size="large" type="primary" onClick={handleStACMEStake} disabled={!compare(stacmeAllowance, stacmeAmount) || getAmount(stacmeAmount) === 0 || stacmeIsApprovingSR || !account}>Stake</Button>
+                                                            <Button size="large" type="primary" onClick={() => handleApprove(stacmeContract, srContract._address)} disabled={compare(stacmeAllowance, stacmeAmount) || stacmeIsApprovingSR || !account}><IconContext.Provider value={{ className: 'react-icons' }}><TbSquareRoundedNumber1Filled /></IconContext.Provider>{stacmeIsApprovingSR ? "Approving..." : "Approve"}</Button>
+                                                            <Button size="large" type="primary" onClick={handleStACMEStake} disabled={!compare(stacmeAllowance, stacmeAmount) || getAmount(stacmeAmount) === 0 || stacmeIsApprovingSR || !account}><IconContext.Provider value={{ className: 'react-icons' }}><TbSquareRoundedNumber2Filled /></IconContext.Provider>Stake</Button>
                                                         </Form.Item>
                                                     </Form>
                                                     {stacmeFormTxHash ? (

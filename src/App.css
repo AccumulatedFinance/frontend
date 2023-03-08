@@ -280,6 +280,12 @@ html {
   margin: 10px 0;
 }
 
+.web3-form .ant-btn .react-icons {
+  margin-right: 4px;
+  margin-left: 0;
+  font-size: 125%;
+}
+
 .popover-connected .ant-typography {
   margin-bottom: 0;
 }
@@ -289,17 +295,16 @@ html {
   border: 1px solid #d9d9d9;
 }
 
-.ant-tabs .react-icons {
+.ant-tabs .ant-tabs-tab .react-icons {
   margin-right: 2px;
   opacity: 0.4;
 }
 
-.ant-tabs .ant-tabs-tab-active .react-icons {
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .react-icons {
   opacity: 1;
 }
 
-.ant-tabs .earned-usd {
-  font-size: 80%;
+.ant-tabs .ant-tabs-tab .earned-usd {
   margin-left: 6px;
   color: #389e0d;
 }
