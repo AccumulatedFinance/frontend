@@ -486,7 +486,14 @@ const AccumulatedFinance = props => {
                                         </Col>
                                     </Row>
                                 } key="1">
-                                   
+                                    {stakingRewardRate && stakingRewardRate === 0 ? (
+                                        <Alert
+                                            message={<span>First liquid staking rewards will be distributed to stACME stakers on <strong>March 17-20.</strong><br />You can stake your stACME in advance.</span>}
+                                            showIcon={false}
+                                            type="success"
+                                            className="banner-description"
+                                        />
+                                    ) : null}
                                     <Alert
                                         message={
                                             <Row gutter={[0,8]}>
@@ -501,7 +508,7 @@ const AccumulatedFinance = props => {
                                                     {stacmeEarned.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} stACME
                                                 </Col>
                                                 <Col xs={24} sm={4}>
-                                                    <strong>My vAPR:</strong>
+                                                    <strong>My APR:</strong>
                                                     <br />
                                                     {stakingRewardRate && stakingRewardDuration && stakingTotal ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}
                                                 </Col>
@@ -512,11 +519,11 @@ const AccumulatedFinance = props => {
                                         className="banner-description"
                                     />
                                     <Tabs
-                                        size="large"
+                                        size="middle"
                                         defaultActiveKey="1"
                                             items={[
                                             {
-                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiWaterFlashLine /></IconContext.Provider>Deposit WACME</div>),
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiWaterFlashLine /></IconContext.Provider> Deposit WACME</div>),
                                                 key: '1',
                                                 children: 
                                                     <div>
@@ -545,7 +552,7 @@ const AccumulatedFinance = props => {
                                                     </div>,
                                             },
                                             {
-                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiPercentLine /></IconContext.Provider>Stake stACME</div>),
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiPercentLine /></IconContext.Provider> Stake stACME</div>),
                                                 key: '2',
                                                 children: <div className="web3-form">
                                                     <Form
@@ -568,7 +575,7 @@ const AccumulatedFinance = props => {
                                                 </div>,
                                             },
                                             {
-                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiHandCoinLine /></IconContext.Provider>Claim rewards
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiHandCoinLine /></IconContext.Provider> Claim rewards
                                                 {acmePrice && stacmeEarned && stacmeEarned !== "0.00000000" ? (<span className="earned-usd">(${(stacmeEarned*acmePrice).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})})</span> ) : null}
                                                 </div>),
                                                 key: '3',
@@ -592,7 +599,7 @@ const AccumulatedFinance = props => {
                                                 </div>,
                                             },
                                             {
-                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiLogoutBoxLine /></IconContext.Provider>Unstake stACME</div>),
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiLogoutBoxLine /></IconContext.Provider> Unstake stACME</div>),
                                                 key: '4',
                                                 children: <div className="web3-form">
                                                     <Form
@@ -613,14 +620,27 @@ const AccumulatedFinance = props => {
                                                     ) : null}
                                                 </div>,
                                             },
+                                            {
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider> Information</div>),
+                                                key: '5',
+                                                children: <div className="web3-form web3-form-info">
+                                                    <Title level={5}>Information</Title>
+                                                    <ul>
+                                                        <li>Deposit WACME to get stACME</li>
+                                                        <li>By staking stACME, you are earning a share of ACME staking rewards</li>
+                                                        <li>Rewards will be distributed continuously over a one week period</li>
+                                                    </ul>
+                                                    <Divider />
+                                                    <Descriptions layout="vertical" column={1} style={{marginTop:10}}>
+                                                        <Descriptions.Item label="WACME">{wacmeContract ? <a href={etherscan + "/address/" + wacmeContract} target="_blank" rel="noreferrer"><Text copyable>{wacmeContract}</Text></a> : null}</Descriptions.Item>
+                                                        <Descriptions.Item label="stACME">{stacmeContract ? <a href={etherscan + "/address/" + stacmeContract} target="_blank" rel="noreferrer"><Text copyable>{stacmeContract}</Text></a> : null}</Descriptions.Item>
+                                                        <Descriptions.Item label="Deposit contract">{lsContract && lsContract._address ? <a href={etherscan + "/address/" + lsContract._address} target="_blank" rel="noreferrer"><Text copyable>{lsContract._address}</Text></a> : null}</Descriptions.Item>
+                                                        <Descriptions.Item label="Rewards contract">{srContract && srContract._address ? <a href={etherscan + "/address/" + srContract._address} target="_blank" rel="noreferrer"><Text copyable>{srContract._address}</Text></a> : null}</Descriptions.Item>
+                                                    </Descriptions>
+                                                </div>,
+                                            },
                                         ]}
                                     />
-                                    <Descriptions layout="vertical" column={1} style={{marginTop:10}}>
-                                        <Descriptions.Item label="WACME">{wacmeContract ? <a href={etherscan + "/address/" + wacmeContract} target="_blank" rel="noreferrer"><Text copyable>{wacmeContract}</Text></a> : null}</Descriptions.Item>
-                                        <Descriptions.Item label="stACME">{stacmeContract ? <a href={etherscan + "/address/" + stacmeContract} target="_blank" rel="noreferrer"><Text copyable>{stacmeContract}</Text></a> : null}</Descriptions.Item>
-                                        <Descriptions.Item label="Deposit contract">{lsContract && lsContract._address ? <a href={etherscan + "/address/" + lsContract._address} target="_blank" rel="noreferrer"><Text copyable>{lsContract._address}</Text></a> : null}</Descriptions.Item>
-                                        <Descriptions.Item label="Rewards contract">{srContract && srContract._address ? <a href={etherscan + "/address/" + srContract._address} target="_blank" rel="noreferrer"><Text copyable>{srContract._address}</Text></a> : null}</Descriptions.Item>
-                                    </Descriptions>
                                 </Panel>
                             </Collapse>
                             <Collapse size="large">
@@ -637,15 +657,34 @@ const AccumulatedFinance = props => {
                                     </Row>
                                 } key="1">
                                     <Alert
-                                        message={<span>Provide liquidity into stACME/WACME Curve pool, get WACME rewards</span>}
+                                        message={<span>stACME/WACME pool will be launched soon</span>}
                                         showIcon={false}
                                         type="info"
                                         className="banner-description"
                                     />
-                                    <Paragraph className="panel-soon">
-                                        <IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider>
-                                        stACME/WACME Curve pool will be launched soon
-                                    </Paragraph>
+                                    <Tabs
+                                        size="middle"
+                                        defaultActiveKey="1"
+                                            items={[
+                                            {
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider> Information</div>),
+                                                key: '1',
+                                                children: <div className="web3-form web3-form-info">
+                                                    <Title level={5}>Information</Title>
+                                                    <ul>
+                                                        <li>Deposit WACME or stACME to stACME/WACME pool on Curve Finance</li>
+                                                        <li>Stake your liquidity position on Curve to earn WACME rewards</li>
+                                                    </ul>
+                                                    <Divider />
+                                                    <Descriptions layout="vertical" column={1} style={{marginTop:10}}>
+                                                        <Descriptions.Item label="WACME">{wacmeContract ? <a href={etherscan + "/address/" + wacmeContract} target="_blank" rel="noreferrer"><Text copyable>{wacmeContract}</Text></a> : null}</Descriptions.Item>
+                                                        <Descriptions.Item label="stACME">{stacmeContract ? <a href={etherscan + "/address/" + stacmeContract} target="_blank" rel="noreferrer"><Text copyable>{stacmeContract}</Text></a> : null}</Descriptions.Item>
+                                                        <Descriptions.Item label="stACME/WACME LP"><Text>Not deployed yet</Text></Descriptions.Item>
+                                                    </Descriptions>
+                                                </div>,
+                                            },
+                                        ]}
+                                    />
                                 </Panel>
                             </Collapse>
                             <Collapse size="large">
@@ -660,16 +699,34 @@ const AccumulatedFinance = props => {
                                         <Col flex="auto" style={{textAlign: "right"}}><Tag color="#722ed1">Launch soon</Tag></Col>
                                     </Row>
                                 } key="1">
-                                <Alert
-                                        message={<span>Lock ACFI to participate in platform governance and earns platform fees</span>}
+                                    <Alert
+                                        message={<span>ACFI will be launched soon</span>}
                                         showIcon={false}
                                         type="info"
                                         className="banner-description"
                                     />
-                                    <Paragraph className="panel-soon">
-                                        <IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider>
-                                        ACFI will be launched soon
-                                    </Paragraph>
+                                    <Tabs
+                                        size="middle"
+                                        defaultActiveKey="1"
+                                            items={[
+                                            {
+                                                label: (<div><IconContext.Provider value={{ className: 'react-icons' }}><RiInformationLine /></IconContext.Provider> Information</div>),
+                                                key: '1',
+                                                children: <div className="web3-form web3-form-info">
+                                                    <Title level={5}>Information</Title>
+                                                    <ul>
+                                                        <li>Lock ACFI to get vlACFI <Text type="secondary">(voting lock ACFI)</Text></li>
+                                                        <li>vlACFI will give you voting weight in governance proposals</li>
+                                                        <li>vlACFI will earn platform fees</li>
+                                                    </ul>
+                                                    <Divider />
+                                                    <Descriptions layout="vertical" column={1} style={{marginTop:10}}>
+                                                        <Descriptions.Item label="ACFI"><Text>Not deployed yet</Text></Descriptions.Item>
+                                                    </Descriptions>
+                                                </div>,
+                                            },
+                                        ]}
+                                    />
                                 </Panel>
                             </Collapse>
                         </Col>
@@ -710,7 +767,7 @@ const AccumulatedFinance = props => {
                 <div style={{ textAlign: 'center' }}>
                     <Title level={2} style={{marginBottom: 5}}><LogoToken />ACFI</Title>
                     <Title level={5} style={{marginTop: 0, marginBottom: 20, fontWeight: 400}}>Accumulated Finance Governance Token</Title>
-                    <p><Text type="secondary">50% of the platform fees will be distributed to ACFI holders who have locked their tokens (Voting Escrow model)</Text></p>
+                    <p><Text type="secondary">50% of the platform fees will be distributed to ACFI holders who have locked their tokens (Voting Lock model)</Text></p>
                 </div>
                 <Divider />
                 <Title level={4}>Participate in ACFI distribution</Title>
