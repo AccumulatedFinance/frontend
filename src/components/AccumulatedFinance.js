@@ -486,13 +486,13 @@ const AccumulatedFinance = props => {
                                         </Col>
                                         <Col flex="auto" style={{textAlign: "right"}}>
                                             <Tag color="#1677ff" style={{fontWeight: "normal"}}>TVL: {acmePrice && stakingTotal ? ( <strong>${(acmePrice*stakingTotal/10**8).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</strong> ) : "..."}</Tag>
-                                            <Tag color="#2f54eb" style={{fontWeight: "normal"}}>APR: {stakingRewardRate && stakingRewardDuration && stakingTotal ? ( <strong>{calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal)} %</strong> ) : "..."}</Tag>
+                                            <Tag color="#2f54eb" style={{fontWeight: "normal"}}>APR: {stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? ( <strong>{calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal)} %</strong> ) : "..."}</Tag>
                                         </Col>
                                     </Row>
                                 } key="1">
-                                    {stakingRewardRate && stakingRewardRate === 0 ? (
+                                    {!stakingRewardRate || stakingRewardRate === "0" || stakingRewardRate === 0 ? (
                                         <Alert
-                                            message={<span>First liquid staking rewards will be distributed to stACME stakers on <strong>March 17-20.</strong><br />You can stake your stACME in advance.</span>}
+                                            message={<span>First liquid staking rewards will be distributed to stACME stakers on <strong>March 17-20.</strong><br />Liquid Staking <strong>APR will be calculated</strong> based on the amount of first rewards.<br />You can stake your stACME in advance.</span>}
                                             showIcon={false}
                                             type="success"
                                             className="banner-description"
@@ -514,7 +514,7 @@ const AccumulatedFinance = props => {
                                                 <Col xs={24} sm={4}>
                                                     <strong>My APR:</strong>
                                                     <br />
-                                                    {stakingRewardRate && stakingRewardDuration && stakingTotal ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}
+                                                    {stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}
                                                 </Col>
                                             </Row>
                                         }
@@ -591,7 +591,7 @@ const AccumulatedFinance = props => {
                                                         >
                                                         <Form.Item label="Staking rewards">
                                                             You have earned: <strong>{stacmeEarned} stACME</strong><br />
-                                                            Liquid staking APR: <strong>{stakingRewardRate && stakingRewardDuration && stakingTotal ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}</strong>
+                                                            Liquid staking APR: <strong>{stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}</strong>
                                                         </Form.Item>
                                                         <Form.Item className="web3-buttons">
                                                             <Button size="large" type="primary" onClick={handleGetReward} disabled={!account}>Claim</Button>
