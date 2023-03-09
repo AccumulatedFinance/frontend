@@ -51,8 +51,11 @@ const AccumulatedFinance = props => {
     const pow = new BigNumber('10').pow(new BigNumber(8));
     const maxApproval = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
 
+    const tvlSuffix = "k";
+    const tvlDivider = 1000;
+
     const formatter = (value) => <CountUp end={value} duration={0.75} decimals={0} separator="," />;
-    const formatterDecimals = (value) => <CountUp end={value} duration={0.75} decimals={1} separator="," />;  
+    const formatterDecimals = (value) => <CountUp end={value} duration={0.75} decimals={1} separator="," />;
 
     const [lsContract, setLSContract] = useState(null);
     const [wacmeContract, setWACMEContract] = useState(null);
@@ -457,7 +460,7 @@ const AccumulatedFinance = props => {
                             <Row gutter={[16,32]} justify="center" style={{marginTop: '60px', marginBottom: '15px'}}>
                                 <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                                     <IconContext.Provider value={{ className: 'react-icons' }}><RiSafe2Line /></IconContext.Provider>
-                                    <Statistic title="TVL" value={stakingTVL && acmePrice ? acmePrice*stakingTVL/(10**11) : "..."} prefix={stakingTVL && acmePrice ? "$" : null} suffix={stakingTVL && acmePrice ? "k" : null} formatter={stakingTVL && acmePrice ? formatterDecimals : null} />
+                                    <Statistic title="TVL" value={stakingTVL && acmePrice ? acmePrice*stakingTVL/(10**8)/tvlDivider : "..."} prefix={stakingTVL && acmePrice ? "$" : null} suffix={stakingTVL && acmePrice ? tvlSuffix : null} formatter={stakingTVL && acmePrice ? formatterDecimals : null} />
                                 </Col>
                                 <Col xs={24} sm={8} md={7} lg={6} xl={5}>
                                     <IconContext.Provider value={{ className: 'react-icons' }}><RiDropLine /></IconContext.Provider>
@@ -485,7 +488,7 @@ const AccumulatedFinance = props => {
                                             </nobr>
                                         </Col>
                                         <Col flex="auto" style={{textAlign: "right"}}>
-                                            <Tag color="#1677ff" style={{fontWeight: "normal"}}>TVL: {acmePrice && stakingTotal ? ( <strong>${(acmePrice*stakingTotal/10**8).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}</strong> ) : "..."}</Tag>
+                                            <Tag color="#1677ff" style={{fontWeight: "normal"}}>TVL: {acmePrice && stakingTotal ? ( <strong>${(acmePrice*stakingTotal/10**8/tvlDivider).toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})}{tvlSuffix}</strong> ) : "..."}</Tag>
                                             <Tag color="#2f54eb" style={{fontWeight: "normal"}}>APR: {stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? ( <strong>{calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal)} %</strong> ) : "..."}</Tag>
                                         </Col>
                                     </Row>
