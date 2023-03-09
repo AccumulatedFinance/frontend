@@ -144,8 +144,18 @@ html {
   vertical-align: middle;
 }
 
-.sections .ant-collapse-header-text .ant-tag {
+@media screen and (min-width: 576px) {
+  .sections .ant-collapse-header-text .product-tags {
+    text-align: right;
+  }
+}
+
+.sections .ant-collapse-header-text .product-tags .ant-tag {
   font-weight: normal !important;
+}
+
+.sections .ant-collapse-header-text .product-tags .ant-tag:last-child {
+  margin-inline-end: 0 !important;
 }
 
 .sections .ant-collapse-expand-icon {

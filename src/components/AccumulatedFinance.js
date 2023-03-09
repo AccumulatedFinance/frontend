@@ -478,16 +478,16 @@ const AccumulatedFinance = props => {
 
                     <Row className="sections">
                         <Col md={{ span: 24, offset: 0 }} lg={{ span: 18, offset: 3 }} style={{ width: "100%" }}>
-                            <Collapse size="large" defaultActiveKey="1" expandIcon={null}>
+                            <Collapse size="large" expandIcon={null}>
                                 <Panel header={
-                                    <Row wrap={false}>
-                                        <Col flex="none">
+                                    <Row gutter={[0,8]}>
+                                        <Col xs={24} sm={14}>
                                             <nobr>
                                                 <img src={stACMELogo} alt="stACME" className="product-logo" />
                                                 ACME Liquid Staking
                                             </nobr>
                                         </Col>
-                                        <Col flex="auto" style={{textAlign: "right"}}>
+                                        <Col xs={24} sm={10} className="product-tags">
                                             <Tag color="#1677ff" style={{fontWeight: "normal"}}>TVL: {acmePrice && stakingTotal ? ( <strong>${(acmePrice*stakingTotal/10**8/tvlDivider).toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})}{tvlSuffix}</strong> ) : "..."}</Tag>
                                             <Tag color="#2f54eb" style={{fontWeight: "normal"}}>APR: {stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? ( <strong>{calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal)} %</strong> ) : "..."}</Tag>
                                         </Col>
@@ -597,7 +597,7 @@ const AccumulatedFinance = props => {
                                                             Liquid staking APR: <strong>{stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal) + " %" : "..."}</strong>
                                                         </Form.Item>
                                                         <Form.Item className="web3-buttons">
-                                                            <Button size="large" type="primary" onClick={handleGetReward} disabled={!account}>Claim</Button>
+                                                            <Button size="large" type="primary" onClick={handleGetReward} disabled={!account}>Claim all</Button>
                                                         </Form.Item>
                                                     </Form>
                                                     {claimFormTxHash ? (
@@ -635,7 +635,8 @@ const AccumulatedFinance = props => {
                                                     <ul>
                                                         <li>Deposit WACME to get stACME</li>
                                                         <li>By staking stACME, you are earning a share of ACME staking rewards</li>
-                                                        <li>Rewards will be distributed continuously over a one week period</li>
+                                                        <li>Rewards are distributed continuously over a one week period</li>
+                                                        <li>Rewards are auto-compounded on the protocol level every week</li>
                                                     </ul>
                                                     <Divider />
                                                     <Descriptions layout="vertical" column={1} style={{marginTop:10}}>
@@ -652,15 +653,15 @@ const AccumulatedFinance = props => {
                             </Collapse>
                             <Collapse size="large">
                                 <Panel header={
-                                    <Row wrap={false}>
-                                        <Col flex="none">
+                                    <Row gutter={[0,8]}>
+                                        <Col xs={24} sm={14}>
                                             <nobr>
                                                 <img src={stACMELogo} alt="stACME" className="product-logo" style={{marginRight: 26}} />
                                                 <img src={WACMELogo} alt="WACME" className="product-logo product-logo-overlay" />
                                                 stACME/WACME Curve LP
                                             </nobr>
                                         </Col>
-                                        <Col flex="auto" style={{textAlign: "right"}}><Tag color="#722ed1">Launch soon</Tag></Col>
+                                        <Col xs={24} sm={10} className="product-tags"><Tag color="#7cb305">Launch soon</Tag></Col>
                                     </Row>
                                 } key="1">
                                     <Alert
@@ -696,14 +697,14 @@ const AccumulatedFinance = props => {
                             </Collapse>
                             <Collapse size="large">
                                 <Panel header={
-                                    <Row wrap={false}>
-                                        <Col flex="none">
+                                    <Row gutter={[0,8]}>
+                                        <Col xs={24} sm={14}>
                                             <nobr>
                                                 <img src={ACFILogo} alt="ACFI" className="product-logo" />
                                                 ACFI Locker
                                             </nobr>
                                         </Col>
-                                        <Col flex="auto" style={{textAlign: "right"}}><Tag color="#722ed1">Launch soon</Tag></Col>
+                                        <Col xs={24} sm={10} className="product-tags"><Tag color="#7cb305">Launch soon</Tag></Col>
                                     </Row>
                                 } key="1">
                                     <Alert
