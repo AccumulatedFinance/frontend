@@ -519,13 +519,16 @@ const AccumulatedFinance = props => {
                             <Collapse size="large" expandIcon={null}>
                                 <Panel header={
                                     <Row gutter={[0,8]}>
-                                        <Col xs={24} sm={14}>
+                                        <Col xs={24} sm={24} md={12}>
                                             <nobr>
                                                 <img src={stACMELogo} alt="stACME" className="product-logo" />
                                                 ACME Liquid Staking
                                             </nobr>
                                         </Col>
-                                        <Col xs={24} sm={10} className="product-tags">
+                                        <Col xs={24} sm={24} md={12} className="product-tags">
+                                            {acmePrice && stakedBalance ? (
+                                                <Tag color="#781ee1" style={{fontWeight: "normal"}}>My: <strong>${(acmePrice*stakedBalance/tvlDivider).toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})}{tvlSuffix}</strong></Tag>
+                                            ) : null }
                                             <Tag color="#1677ff" style={{fontWeight: "normal"}}>TVL: {acmePrice && stakingTotal ? ( <strong>${(acmePrice*stakingTotal/10**8/tvlDivider).toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})}{tvlSuffix}</strong> ) : "..."}</Tag>
                                             <Tag color="#2f54eb" style={{fontWeight: "normal"}}>APR: {stakingRewardRate && stakingRewardDuration && stakingRewardDuration > 0 && stakingTotal && stakingTotal > 0 ? ( <strong>{calculateAPR(stakingRewardRate, stakingRewardDuration, stakingTotal)} %</strong> ) : "..."}</Tag>
                                         </Col>
@@ -692,14 +695,14 @@ const AccumulatedFinance = props => {
                             <Collapse size="large">
                                 <Panel header={
                                     <Row gutter={[0,8]}>
-                                        <Col xs={24} sm={14}>
+                                        <Col xs={24} sm={24} md={12}>
                                             <nobr>
                                                 <img src={stACMELogo} alt="stACME" className="product-logo" style={{marginRight: 26}} />
                                                 <img src={WACMELogo} alt="WACME" className="product-logo product-logo-overlay" />
                                                 stACME/WACME Curve LP
                                             </nobr>
                                         </Col>
-                                        <Col xs={24} sm={10} className="product-tags"><Tag color="#7cb305">Launch soon</Tag></Col>
+                                        <Col xs={24} sm={24} md={12} className="product-tags"><Tag color="#7cb305">Launch soon</Tag></Col>
                                     </Row>
                                 } key="1">
                                     <Alert
@@ -736,13 +739,13 @@ const AccumulatedFinance = props => {
                             <Collapse size="large">
                                 <Panel header={
                                     <Row gutter={[0,8]}>
-                                        <Col xs={24} sm={14}>
+                                        <Col xs={24} sm={24} md={12}>
                                             <nobr>
                                                 <img src={ACFILogo} alt="ACFI" className="product-logo" />
                                                 ACFI Locker
                                             </nobr>
                                         </Col>
-                                        <Col xs={24} sm={10} className="product-tags"><Tag color="#7cb305">Launch soon</Tag></Col>
+                                        <Col xs={24} sm={24} md={12} className="product-tags"><Tag color="#7cb305">Launch soon</Tag></Col>
                                     </Row>
                                 } key="1">
                                     <Alert

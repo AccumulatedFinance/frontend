@@ -144,7 +144,7 @@ html {
   vertical-align: middle;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 768px) {
   .sections .ant-collapse-header-text .product-tags {
     text-align: right;
   }
