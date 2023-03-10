@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 import axios from 'axios';
@@ -92,6 +92,26 @@ const AccumulatedFinance = props => {
     const [claimFormTxHash, setClaimFormTxHash] = useState(null);
 
     const injected = new InjectedConnector();
+
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+      
+        // Remember the latest callback.
+        useEffect(() => {
+          savedCallback.current = callback;
+        }, [callback]);
+      
+        // Set up the interval.
+        useEffect(() => {
+          function tick() {
+            savedCallback.current();
+          }
+          if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+          }
+        }, [delay]);
+    }
 
     const {
         account,
@@ -411,6 +431,24 @@ const AccumulatedFinance = props => {
             getStakingData();
         }
     }, [account]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    useInterval(() => {
+        if (account) {
+            if (wacmeContract && lsContract && lsContract._address) {
+                getBalance(wacmeContract);
+                getAllowance(wacmeContract, lsContract._address);
+            }
+            if (stacmeContract && srContract && srContract._address) {
+                getBalance(stacmeContract);
+                getAllowance(stacmeContract, srContract._address);
+                getStakingData();
+                refreshStakingRewardsContract();
+            }
+        }
+        if (stakingAccount) {
+            getStakingTVL();
+        }
+    }, 10000);
 
     return (
         <Router>
